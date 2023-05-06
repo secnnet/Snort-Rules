@@ -1,1 +1,1 @@
-# Snort-Rules
+# Snort Rules
