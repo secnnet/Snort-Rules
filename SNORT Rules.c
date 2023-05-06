@@ -234,25 +234,83 @@ alert udp any any -> any 53 (msg:"DNS Query for Known Malicious Subdomain"; cont
 alert tcp any any -> any any (msg:"HTTP Traffic with Suspicious HTTP Response Code"; flow:established,from_server; http_stat_code; content:"200"; nocase; threshold:type threshold,track by_src,count 5,seconds 60; sid:10060; rev:1;)
 # This rule triggers an alert when HTTP traffic with suspicious HTTP response codes is detected. The rule uses the "nocase" option to match on the "200" response code regardless of case and sets a threshold to limit the number of alerts generated.
 
+# Rule to detect SQL injection attempts using the "DELETE" keyword:
+alert tcp any any -> any any (msg:"SQL Injection Attempt Using DELETE Keyword"; flow:to_server,established; content:"' delete "; nocase; sid:10061; rev:1;)
+# This rule triggers an alert when SQL injection attempts using the "DELETE" keyword are detected.
 
+# Rule to detect HTTP traffic with suspicious user-agent strings:
+alert tcp any any -> any any (msg:"HTTP Traffic with Suspicious User-Agent String"; flow:to_server,established; http_header; content:"User-Agent|3A 20|"; pcre:"/(\bPython\b|\bcurl\b)/i"; sid:10062; rev:1;)
+# This rule triggers an alert when HTTP traffic with suspicious user-agent strings is detected. The rule uses a regular expression to match on known malicious user-agent strings.
 
+# Rule to detect SSH traffic with long password strings:
+alert tcp any any -> any 22 (msg:"SSH Traffic with Long Password String"; flow:to_server,established; content:"ssh_userauth"; nocase; content:"password|3A|"; nocase; pcre:"/password.{100,}/"; sid:10063; rev:1;)
+# This rule triggers an alert when SSH traffic with long password strings is detected. The rule uses a regular expression to match on a password string of 100 characters or more.
 
+# Rule to detect DNS queries for known malicious TLDs:
+alert udp any any -> any 53 (msg:"DNS Query for Known Malicious TLD"; content:"|01 00 00 01 00 00 00 00 00 00|"; depth:10; pcre:"/\.(\btk|\bcf|\bgq|\bml|\bga|\bgdn|\bla|\bcu|\blol|\bto|\bgl|\bgp|\bwin)/i"; sid:10064; rev:1;)
+# This rule triggers an alert when DNS queries for known malicious top-level domains (TLDs) are detected. The rule uses a regular expression to match on known malicious TLDs.
 
+# Rule to detect HTTP traffic with suspicious HTTP request methods:
+alert tcp any any -> any any (msg:"HTTP Traffic with Suspicious HTTP Request Method"; flow:to_server,established; http_method; pcre:"/(\bDELETE\b|\bTRACE\b|\bCONNECT\b)/i"; sid:10065; rev:1;)
+# This rule triggers an alert when HTTP traffic with suspicious HTTP request methods is detected. The rule uses a regular expression to match on known malicious HTTP request methods.
 
+# Rule to detect SQL injection attempts using the "DROP" keyword:
+alert tcp any any -> any any (msg:"SQL Injection Attempt Using DROP Keyword"; flow:to_server,established; content:"' drop "; nocase; sid:10066; rev:1;)
+# This rule triggers an alert when SQL injection attempts using the "DROP" keyword are detected.
 
+# Rule to detect HTTP traffic with suspicious referrer headers:
+alert tcp any any -> any any (msg:"HTTP Traffic with Suspicious Referrer Header"; flow:to_server,established; http_header; content:"Referer|3A 20|"; pcre:"/(\bmalware\b|\btrojan\b|\bspam\b|\bscam\b|\bspyware\b)/i"; sid:10067; rev:1;)
+# This rule triggers an alert when HTTP traffic with suspicious referrer headers is detected. The rule uses a regular expression to match on known malicious referrer header values.
 
+# Rule to detect SSH traffic with suspicious command strings:
+alert tcp any any -> any 22 (msg:"SSH Traffic with Suspicious Command String"; flow:to_server,established; content:"|20 3a 20|"; pcre:"/(\bping\b|\bnc\b|\btelnet\b)/i"; sid:10068; rev:1;)
+# This rule triggers an alert when SSH traffic with suspicious command strings is detected. The rule uses a regular expression to match on known malicious command strings.
 
+# Rule to detect DNS queries for known malicious domains with unusual TLDs:
+alert udp any any -> any 53 (msg:"DNS Query for Known Malicious Domain with Unusual TLD"; content:"|01 00 00 01 00 00 00 00 00 00|"; depth:10; pcre:"/\.(\btop|\btoday|\blive|\bxyz|\bwin|\bclub)\b/i"; sid:10069; rev:1;)
+# This rule triggers an alert when DNS queries for known malicious domains with unusual TLDs are detected. The rule uses a regular expression to match on known malicious domain names with unusual TLDs.
 
+# Rule to detect HTTP traffic with suspicious content length values:
+alert tcp any any -> any any (msg:"HTTP Traffic with Suspicious Content Length Value"; flow:established,from_server; http_header; content:"Content-Length|3A 20|"; pcre:"/^Content-Length\:\s*(\d+)\s*$/i"; content:"|0d 0a|"; within:100; threshold:type threshold,track by_src,count 5,seconds 60; sid:10070; rev:1;)
+# This rule triggers an alert when HTTP traffic with suspicious content length values is detected. The rule uses a regular expression to match on known malicious content length values and sets a threshold to limit the number of alerts generated.
 
+# Rule to detect SQL injection attempts using the "TRUNCATE" keyword:
+alert tcp any any -> any any (msg:"SQL Injection Attempt Using TRUNCATE Keyword"; flow:to_server,established; content:"' truncate "; nocase; sid:10071; rev:1;)
+# This rule triggers an alert when SQL injection attempts using the "TRUNCATE" keyword are detected.
 
+# Rule to detect HTTP traffic with suspicious URL paths:
+alert tcp any any -> any any (msg:"HTTP Traffic with Suspicious URL Path"; flow:to_server,established; http_uri; content:"|2F|..|2F|"; nocase; sid:10072; rev:1;)
+# This rule triggers an alert when HTTP traffic with suspicious URL paths is detected. The rule uses the "nocase" option to match on the ".." directory traversal sequence.
 
+# Rule to detect SSH traffic with suspicious SSH key exchange strings:
+alert tcp any any -> any 22 (msg:"SSH Traffic with Suspicious SSH Key Exchange String"; flow:to_server,established; content:"SSH-2.0-"; depth:9; content:"diffie-hellman-group1-sha1,"; nocase; sid:10073; rev:1;)
+# This rule triggers an alert when SSH traffic with suspicious SSH key exchange strings is detected. The rule uses the "nocase" option to match on the "diffie-hellman-group1-sha1" key exchange algorithm.
 
+# Rule to detect DNS queries for known malicious subnets:
+alert udp any any -> any 53 (msg:"DNS Query for Known Malicious Subnet"; content:"|01 00 00 01 00 00 00 00 00 00|"; depth:10; pcre:"/(\b192\.168\.|\b10\.|\b172\.(1[6-9]|2\d|3[01])\.)/"; sid:10074; rev:1;)
+# This rule triggers an alert when DNS queries for known malicious subnets are detected. The rule uses a regular expression to match on known malicious subnet ranges.
 
+# Rule to detect HTTP traffic with suspicious query strings:
+alert tcp any any -> any any (msg:"HTTP Traffic with Suspicious Query String"; flow:to_server,established; http_uri; pcre:"/\?(.*[\x00-\x20"\']+|.*select.*)/i"; sid:10075; rev:1;)
+# This rule triggers an alert when HTTP traffic with suspicious query strings is detected. The rule uses a regular expression to match on known malicious query strings.
 
+# Rule to detect SQL injection attempts using the "ALTER" keyword:
+alert tcp any any -> any any (msg:"SQL Injection Attempt Using ALTER Keyword"; flow:to_server,established; content:"' alter "; nocase; sid:10076; rev:1;)
+# This rule triggers an alert when SQL injection attempts using the "ALTER" keyword are detected.
 
+# Rule to detect HTTP traffic with suspicious user-agent values:
+alert tcp any any -> any any (msg:"HTTP Traffic with Suspicious User-Agent Value"; flow:to_server,established; http_header; content:"User-Agent|3A 20|"; nocase; pcre:"/(\bmasscan\b|\bnikto\b|\bburp\b|\bdirb\b)/i"; sid:10077; rev:1;)
+# This rule triggers an alert when HTTP traffic with suspicious user-agent values is detected. The rule uses a regular expression to match on known malicious user-agent values.
 
+# Rule to detect SSH traffic with unusual channel open requests:
+alert tcp any any -> any 22 (msg:"SSH Traffic with Unusual Channel Open Request"; flow:to_server,established; content:"ssh_channel_open_request"; nocase; content:"subsystem|3A|"; nocase; pcre:"/(\bsudo\b|\bsh\b|\bbash\b|\bzsh\b|\bksh\b)/i"; sid:10078; rev:1;)
+# This rule triggers an alert when SSH traffic with unusual channel open requests is detected. The rule uses regular expressions and the "nocase" option to match on known malicious channel open requests and subsystem names.
 
+# Rule to detect DNS queries for known malicious domains with numerical TLDs:
+alert udp any any -> any 53 (msg:"DNS Query for Known Malicious Domain with Numerical TLD"; content:"|01 00 00 01 00 00 00 00 00 00|"; depth:10; pcre:"/\.(\b1|\b2|\b3|\b4|\b5|\b6|\b7|\b8|\b9|\b0)\b/"; sid:10079; rev:1;)
+# This rule triggers an alert when DNS queries for known malicious domains with numerical TLDs are detected. The rule uses a regular expression to match on known malicious domain names with numerical TLDs.
 
-
-
+# Rule to detect HTTP traffic with suspicious HTTP version strings:
+alert tcp any any -> any any (msg:"HTTP Traffic with Suspicious HTTP Version String"; flow:to_server,established; http_header; content:"HTTP/"; pcre:"/^(HTTP\/1\.0|HTTP\/0\.9)/"; sid:10080; rev:1;)
+# This rule triggers an alert when HTTP traffic with suspicious HTTP version strings is detected. The rule uses regular expressions to match on known malicious HTTP version strings.
 
