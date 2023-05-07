@@ -8,42 +8,65 @@ This repository contains a set of Snort rules for network security monitoring. T
 
 Here are brief descriptions of the Snort rules included in this repository:
 
-- Rule 10001: Detects SQL injection attempts using the "UNION" keyword.
-- Rule 10002: Detects HTTP traffic with suspicious HTTP headers.
-- Rule 10003: Detects SSH traffic with suspicious authentication attempts.
-- Rule 10004: Detects DNS queries for known malicious domains.
-- Rule 10005: Detects HTTP traffic with suspicious HTTP status codes.
-- Rule 10006: Detects SQL injection attempts using the "OR" keyword.
-- Rule 10007: Detects HTTP traffic with suspicious user agent strings.
-- Rule 10008: Detects SSH traffic with suspicious SSH version strings.
-- Rule 10009: Detects DNS queries for known malicious IP addresses.
-- Rule 10010: Detects HTTP traffic with suspicious file extensions.
-- Rule 10011: Detects SQL injection attempts using the "AND" keyword.
-- Rule 10012: Detects HTTP traffic with suspicious HTTP request methods.
-- Rule 10013: Detects SSH traffic with suspicious SSH negotiation strings.
-- Rule 10014: Detects DNS queries for known malicious subdomains.
-- Rule 10015: Detects HTTP traffic with suspicious HTTP referrer headers.
-- Rule 10016: Detects SQL injection attempts using the "SELECT" keyword.
-- Rule 10017: Detects HTTP traffic with suspicious HTTP response codes.
-- Rule 10018: Detects SSH traffic with unusual SSH user names.
-- Rule 10019: Detects DNS queries for known malicious domain name variations.
-- Rule 10020: Detects HTTP traffic with suspicious HTTP version strings.
-- Rule 10021: Detects SQL injection attempts using the "INSERT" keyword.
-- Rule 10022: Detects HTTP traffic with suspicious HTTP cookies.
-- Rule 10023: Detects SSH traffic with suspicious SSH message types.
-- Rule 10024: Detects DNS queries for known malicious TLDs.
-- Rule 10025: Detects HTTP traffic with suspicious HTTP content types.
-- Rule 10026: Detects SQL injection attempts using the "UPDATE" keyword.
-- Rule 10027: Detects HTTP traffic with suspicious HTTP parameter values.
-- Rule 10028: Detects SSH traffic with suspicious SSH service names.
-- Rule 10029: Detects DNS queries for known malicious domains with IP addresses.
-- Rule 10030: Detects HTTP traffic with suspicious HTTP query strings.
-- Rule 10031: Detects SQL injection attempts using the "FROM" keyword.
-- Rule 10032: Detects HTTP traffic with suspicious HTTP host headers.
-- Rule 10033: Detects SSH traffic with suspicious SSH authentication methods.
-- Rule 10034: Detects DNS queries for known malicious domain name typos.
-- Rule 10035: Detects HTTP traffic with suspicious HTTP request URIs.
-- Rule 10036: Detects SQL injection attempts using the "GROUP BY" keyword.
-- Rule 10037: Detects HTTP traffic with suspicious HTTP content lengths.
-- Rule 10038: Detects SSH traffic with suspicious SSH channel requests.
-- Rule 10039: Detects
+- Rule to detect HTTP traffic to a known malicious domain
+- Rule to detect SSH brute force attacks
+- Rule to detect SQL injection attacks
+- Rule to detect suspicious port scans
+- Rule to detect DNS queries to known malicious domains
+- Rule to detect HTTP requests with a high number of parameters
+- Rule to detect FTP brute force attacks
+- Rule to detect suspicious activity from known malicious IPs
+- Rule to detect SSH traffic with invalid user names
+- Rule to detect outgoing traffic to known malicious IP addresses
+- Rule to detect DNS queries for known malicious domains
+- Rule to detect HTTP traffic to suspicious user-agents
+- Rule to detect SQL injection attempts in HTTP requests
+- Rule to detect SSH traffic from unknown source IPs
+- Rule to detect suspicious activity in FTP data transfers
+- Rule to detect HTTP traffic with large POST requests
+- Rule to detect incoming traffic to high-numbered ports
+- Rule to detect HTTP traffic to suspicious file extensions
+- Rule to detect ICMP echo requests from external sources
+- Rule to detect DNS queries with long domain names
+- Rule to detect SSH traffic to known malicious IP addresses
+- Rule to detect HTTP traffic to suspicious IP addresses
+- Rule to detect DNS queries with invalid characters
+- Rule to detect HTTP traffic with large cookie headers
+- Rule to detect FTP traffic to suspicious file extensions
+- Rule to detect HTTP traffic with suspicious user-agent values
+- Rule to detect SMTP traffic to known malicious domains
+- Rule to detect HTTP traffic to known phishing URLs
+- Rule to detect suspicious ICMP traffic
+- Rule to detect DNS queries with long label lengths
+- Rule to detect SQL injection attempts using the "OR" keyword
+- Rule to detect HTTP traffic with large file uploads
+- Rule to detect SSH traffic to non-standard ports
+- Rule to detect DNS queries with long domain name labels
+- Rule to detect suspicious traffic to known C&C servers
+- Rule to detect HTTP traffic with suspicious referer headers
+- Rule to detect SMTP traffic to unknown domains
+- Rule to detect HTTP traffic with suspicious query parameters
+- Rule to detect suspicious TCP traffic to high-numbered ports
+- Rule to detect HTTP traffic with multiple user-agent headers
+- Rule to detect SQL injection attempts using the "UNION" keyword
+- Rule to detect HTTP traffic to suspicious URL paths
+- Rule to detect SSH traffic with multiple authentication failures
+- Rule to detect DNS queries for known malicious domains
+- Rule to detect HTTP traffic with suspicious user credentials
+- Rule to detect SQL injection attempts using the "SELECT" keyword
+- Rule to detect HTTP traffic to suspicious domain names
+- Rule to detect SSH traffic with long banner strings
+- Rule to detect DNS queries for known malicious IP addresses
+- Rule to detect HTTP traffic with suspicious file extensions
+- Rule to detect SQL injection attempts using the "UPDATE" keyword
+- Rule to detect HTTP traffic with suspicious cookie values
+- Rule to detect SSH traffic with invalid protocol version strings
+- Rule to detect DNS queries for known sinkhole domains
+- Rule to detect HTTP traffic with suspicious file names
+- Rule to detect SQL injection attempts using the "INSERT" keyword
+- Rule to detect HTTP traffic with suspicious HTTP methods
+- Rule to detect SSH traffic with suspicious user credentials
+- Rule to detect DNS queries for known malicious subdomains
+- Rule to detect HTTP traffic with suspicious HTTP response codes
+- Rule to detect SQL injection attempts using the "DELETE" keyword
+- Rule to detect HTTP traffic with suspicious user-agent strings
