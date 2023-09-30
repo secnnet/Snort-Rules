@@ -5,7 +5,7 @@ alert tcp any any -> any any (msg:"Malicious HTTP traffic to known malicious dom
 alert tcp any any -> any 22 (msg:"SSH Brute Force Attack"; flow:to_server,established; content:"ssh"; depth:3; content:"authentication failed"; sid:10002; rev:1;)
 
 # Rule to detect SQL injection attacks:
-alert tcp any any -> any any (msg:"Possible SQL Injection Attack"; flow:to_server, established; content:"' or 1=1--"; sid:10003; rev:1;)
+alert tcp any any -> any any (msg:"Possible SQL Injection Attack"; flow:to_server,established; content:"' or 1=1--"; sid:10003; rev:1;)
 
 # Rule to detect suspicious port scans:
 alert tcp any any -> any any (msg:"Suspicious Port Scan"; flags:S; threshold: type both, track by_src, count 5, seconds 60; sid:10004; rev:1;)
