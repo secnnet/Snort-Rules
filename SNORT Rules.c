@@ -14,7 +14,7 @@ alert tcp any any -> any any (msg:"Suspicious Port Scan"; flags:S; threshold: ty
 alert udp any any -> any 53 (msg:"Malicious DNS query to known malicious domain"; content:"|01 00 00 01 00 00 00 00 00 00|"; depth:10; content:"|0c|maliciousdomain|03|com|00|"; sid:10005; rev:1;)
 
 # Rule to detect HTTP requests with a high number of parameters:
-alert tcp any any -> any any (msg:"HTTP Request with High Number of Parameters"; flow:to_server,established; http_method; content:"?"; http_uri; pcre:"/^([^\?\n]{0,255}\?){6,}/U"; sid:10006; rev:1;)
+alert tcp any any -> any any (msg:"HTTP Request with High Number of Parameters"; flow:to_server,established; content:"?"; http_method; http_uri; pcre:"/^([^\?\n]{0,255}\?){6,}/U"; sid:10006; rev:1;)
 
 # This rule triggers an alert when an HTTP request with a high number of parameters is detected. In this example, the rule is set to detect requests with six or  parameters.
 
