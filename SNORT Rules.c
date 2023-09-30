@@ -8,7 +8,7 @@ alert tcp any any -> any 22 (msg:"SSH Brute Force Attack"; flow:to_server,establ
 alert tcp any any -> any any (msg:"Possible SQL Injection Attack"; flow:to_server,established; content:"' or 1=1--"; sid:10003; rev:1;)
 
 # Rule to detect suspicious port scans:
-alert tcp any any -> any any (msg:"Suspicious Port Scan"; flags:S; threshold: type both, count 5, seconds 60; sid:10004; rev:1;)
+alert tcp any any -> any any (msg:"Suspicious Port Scan"; flags:S; threshold: type both, track by_src, count 5, seconds 60; sid:10004; rev:1;)
 
 # Rule to detect DNS queries to known malicious domains:
 alert udp any any -> any 53 (msg:"Malicious DNS query to known malicious domain"; content:"|01 00 00 01 00 00 00 00 00 00|"; depth:10; content:"|0c|maliciousdomain|03|com|00|"; sid:10005; rev:1;)
