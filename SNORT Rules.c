@@ -5,7 +5,7 @@ alert tcp any any -> any any (msg:"Malicious HTTP traffic to known malicious dom
 alert tcp any any -> any 22 (msg:"SSH Brute Force Attack"; flow:to_server,established; content:"ssh"; depth:3; content:"authentication failed"; sid:10002; rev:1;)
 
 # Rule to detect SQL injection attacks:
-alert tcp any any -> any any (msg:"Possible SQL Injection Attack"; flow:to_server,established; content:"' or 1=1--"; sid:10003; rev:1;)
+alert tcp any any -> any any (msg:"Possible SQL Injection Attack"; flow:to_server, established; content:"' or 1=1--"; sid:10003; rev:1;)
 
 # Rule to detect suspicious port scans:
 alert tcp any any -> any any (msg:"Suspicious Port Scan"; flags:S; threshold: type both, track by_src, count 5, seconds 60; sid:10004; rev:1;)
@@ -14,7 +14,7 @@ alert tcp any any -> any any (msg:"Suspicious Port Scan"; flags:S; threshold: ty
 alert udp any any -> any 53 (msg:"Malicious DNS query to known malicious domain"; content:"|01 00 00 01 00 00 00 00 00 00|"; depth:10; content:"|0c|maliciousdomain|03|com|00|"; sid:10005; rev:1;)
 
 # Rule to detect HTTP requests with a high number of parameters:
-alert tcp any any -> any any (msg:"HTTP Request with High Number of Parameters"; flow:to_server,established; content:"?"; http_method; http_uri; pcre:"/^([^\?\n]{0,255}\?){6,}/U"; sid:10006; rev:1;)
+alert tcp any any -> any any (msg:"HTTP Request with High Number of Parameters"; flow:to_server,established; content:"?"; http_uri; pcre:"/^([^\?\n]{0,255}\?){6,}/U"; sid:10006; rev:1;)
 
 # This rule triggers an alert when an HTTP request with a high number of parameters is detected. In this example, the rule is set to detect requests with six or  parameters.
 
