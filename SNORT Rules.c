@@ -39,7 +39,7 @@ alert udp any any -> any 53 (msg:"DNS Query for Known Malicious Domain"; content
 # This rule triggers an alert when DNS queries for known malicious domains are detected.
 
 # Rule to detect HTTP traffic to suspicious user-agents:
-alert tcp any any -> any any (msg:"HTTP Traffic to Suspicious User-Agent"; flow:to_server,established; http_header; content:"User-Agent|3A 20|"; pcre:"/(\b(BlackWidow|wget|nikto|sqlmap|metasploit|curl|libwww-perl)\b)/i"; sid:10012; rev:1;)
+alert tcp any any -> any any (msg:"HTTP Traffic to Suspicious User-Agent"; flow:to_server,established; content:"User-Agent|3A 20|"; http_header; pcre:"/(\b(BlackWidow|wget|nikto|sqlmap|metasploit|curl|libwww-perl)\b)/i"; sid:10012; rev:1;)
 # This rule triggers an alert when HTTP traffic to suspicious user-agents is detected. The rule uses a regular expression to match on known malicious user-agents.
 
 # Rule to detect SQL injection attempts in HTTP requests:
@@ -55,7 +55,7 @@ alert tcp any any -> any 21 (msg:"Suspicious Activity in FTP Data Transfer"; flo
 # This rule triggers an alert when suspicious activity is detected in FTP data transfers. The rule uses a regular expression to match on known malicious commands.
 
 # Rule to detect HTTP traffic with large POST requests:
-alert tcp any any -> any any (msg:"Large HTTP POST Request Detected"; flow:to_server,established; http_method; content:"POST"; http_uri; content:"Content-Length"; depth:15; pcre:"/^Content-Length\s*:\s*[0-9]{4,}$/"; threshold:type both,track by_src,count 5,seconds 60; sid:10016; rev:1;)
+alert tcp any any -> any any (msg:"Large HTTP POST Request Detected"; flow:to_server,established; content:"POST"; http_method; content:"Content-Length"; http_uri; depth:15; pcre:"/^Content-Length\s*:\s*[0-9]{4,}$/"; threshold:type both,track by_src,count 5,seconds 60; sid:10016; rev:1;)
 # This rule triggers an alert when large HTTP POST requests are detected. The rule uses a regular expression to match on the "Content-Length" header and sets a threshold to limit the number of alerts generated.
 
 # Rule to detect incoming traffic to high-numbered ports:
@@ -67,7 +67,7 @@ alert tcp any any -> any any (msg:"HTTP Traffic to Suspicious File Extension"; f
 # This rule triggers an alert when HTTP traffic to suspicious file extensions is detected. The rule uses a regular expression to match on known malicious file extensions.
 
 # Rule to detect ICMP echo requests from external sources:
-alert icmp [!10.0.0.0/8, !172.16.0.0/12, !192.168.0.0/16] any -> any any (msg:"ICMP Echo Request from External Source"; sid:10019; rev:1;)
+alert icmp $EXTERNAL_NET any -> any any (msg:"ICMP Echo Request from External Source"; sid:10019; rev:1;)
 # This rule triggers an alert when ICMP echo requests from external sources are detected. The rule uses the negation operator to exclude internal IP ranges from triggering an alert.
 
 # Rule to detect DNS queries with long domain names:
@@ -87,7 +87,7 @@ alert udp any any -> any 53 (msg:"DNS Query with Invalid Characters"; content:"|
 # This rule triggers an alert when DNS queries with invalid characters are detected. The rule uses a regular expression to match on characters that are not allowed in DNS queries.
 
 # Rule to detect HTTP traffic with large cookie headers:
-alert tcp any any -> any any (msg:"HTTP Traffic with Large Cookie Header"; flow:to_server,established; http_header; content:"Cookie|3A 20|"; pcre:"/Cookie\s*:\s*(\w+\=[^\;]*\;){10,}/i"; sid:10024; rev:1;)
+alert tcp any any -> any any (msg:"HTTP Traffic with Large Cookie Header"; flow:to_server,established; content:"Cookie|3A 20|"; http_header; pcre:"/Cookie\s*:\s*(\w+\=[^\;]*\;){10,}/i"; sid:10024; rev:1;)
 # This rule triggers an alert when HTTP traffic with large cookie headers is detected. The rule uses a regular expression to match on cookie headers with  than 10 parameters.
 
 # Rule to detect FTP traffic to suspicious file extensions:
@@ -95,7 +95,7 @@ alert tcp any any -> any 21 (msg:"FTP Traffic to Suspicious File Extension"; flo
 # This rule triggers an alert when FTP traffic to suspicious file extensions is detected. The rule uses a regular expression to match on known malicious file extensions.
 
 # Rule to detect HTTP traffic with suspicious user-agent values:
-alert tcp any any -> any any (msg:"HTTP Traffic with Suspicious User-Agent"; flow:to_server,established; http_header; content:"User-Agent|3A 20|"; pcre:"/(bot|crawler|scanner|spider|wget|nikto|sqlmap|curl|libwww-perl)/i"; sid:10026; rev:1;)
+alert tcp any any -> any any (msg:"HTTP Traffic with Suspicious User-Agent"; flow:to_server,established; content:"User-Agent|3A 20|"; http_header; pcre:"/(bot|crawler|scanner|spider|wget|nikto|sqlmap|curl|libwww-perl)/i"; sid:10026; rev:1;)
 # This rule triggers an alert when HTTP traffic with suspicious user-agent values is detected. The rule uses a regular expression to match on known malicious user-agent strings.
 
 # Rule to detect SMTP traffic to known malicious domains:
@@ -119,7 +119,7 @@ alert tcp any any -> any any (msg:"SQL Injection Attempt Using OR Keyword"; flow
 # This rule triggers an alert when SQL injection attempts using the "OR" keyword are detected.
 
 # Rule to detect HTTP traffic with large file uploads:
-alert tcp any any -> any any (msg:"HTTP Traffic with Large File Upload"; flow:to_server,established; http_method; content:"POST"; http_uri; content:"Content-Length"; depth:15; pcre:"/^Content-Length\s*:\s*[0-9]{6,}$/"; threshold:type both,track by_src,count 5,seconds 60; sid:10032; rev:1;)
+alert tcp any any -> any any (msg:"HTTP Traffic with Large File Upload"; flow:to_server,established; content:"POST"; http_method; content:"Content-Length"; http_uri; depth:15; pcre:"/^Content-Length\s*:\s*[0-9]{6,}$/"; threshold:type both,track by_src,count 5,seconds 60; sid:10032; rev:1;)
 # This rule triggers an alert when HTTP traffic with large file uploads is detected. The rule sets a threshold to limit the number of alerts generated.
 
 # Rule to detect SSH traffic to non-standard ports:
